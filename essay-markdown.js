@@ -26,9 +26,12 @@
         return;
       }
 
-      if ((destination.protocol === 'https:' || destination.protocol === 'http:') &&
-          destination.origin !== global.location.origin) {
+      const externalHttp = (destination.protocol === 'https:' || destination.protocol === 'http:') &&
+        destination.origin !== global.location.origin;
+      if (externalHttp) {
         link.setAttribute('target', '_blank');
+      }
+      if (externalHttp || link.getAttribute('target') === '_blank') {
         link.setAttribute('rel', 'noopener noreferrer');
       }
     });
