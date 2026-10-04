@@ -1,0 +1,61 @@
+/* Markdown content inside the existing Blue hour essay reader. */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  margin: 42px 0 20px;
+}
+.prose h1 { font-size: 46px; }
+.prose h2 { font-size: 36px; }
+.prose h3 { font-size: 30px; }
+.prose h4 { font-size: 25px; }
+.prose h5 { font-size: 21px; }
+.prose h6 { font-size: 18px; }
+.prose a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.prose ul,
+.prose ol { padding-left: 1.5em; margin: 0 0 26px; }
+.prose li { padding-left: .15em; margin: 0 0 7px; }
+.prose li > ul,
+.prose li > ol { margin: 8px 0; }
+.prose li.task-list-item { list-style: none; margin-left: -1.5em; }
+.prose input[type="checkbox"] { margin: 0 .55em 0 0; accent-color: var(--ink); }
+.prose code,
+.prose pre { font-family: Consolas, 'Courier New', monospace; }
+.prose code { font-size: .88em; background: var(--soft); border-radius: 2px; padding: .12em .32em; }
+.prose pre {
+  overflow-x: auto;
+  margin: 0 0 26px;
+  padding: 17px 19px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.65;
+  tab-size: 2;
+}
+.prose pre code { display: block; padding: 0; background: transparent; white-space: pre; }
+.prose .markdown-table-wrap { max-width: 100%; overflow-x: auto; margin: 0 0 30px; }
+.prose table { width: 100%; min-width: 560px; border-collapse: collapse; font-family: Manrope, Arial, sans-serif; font-size: 13px; line-height: 1.6; }
+.prose th,
+.prose td { padding: 10px 13px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+.prose th { background: var(--soft); color: var(--ink); font-weight: 600; }
+.prose hr { border: 0; border-top: 1px solid var(--line); margin: 38px 0; }
+.prose img { display: block; max-width: 100%; height: auto; margin: 28px auto; }
+.prose del { text-decoration-thickness: 1px; }
+@media (max-width: 600px) {
+  .prose h1 { font-size: 39px; }
+  .prose h2 { font-size: 32px; }
+  .prose h3 { font-size: 27px; }
+  .prose h4 { font-size: 23px; }
+  .prose h5 { font-size: 20px; }
+  .prose pre { padding: 14px; font-size: 12px; }
+  .prose table { font-size: 12px; }
+}

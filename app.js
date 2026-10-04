@@ -64,11 +64,7 @@ function renderList() {
 }
 
 function richText(body) {
-  return (body || '').split(/\n\s*\n/).filter(Boolean).map(block => {
-    if (block.startsWith('## ')) return `<h2>${esc(block.slice(3))}</h2>`;
-    if (block.startsWith('> ')) return `<blockquote>${esc(block.replace(/^> /gm, ''))}</blockquote>`;
-    return `<p>${esc(block).replace(/\n/g, '<br>')}</p>`;
-  }).join('');
+  return window.EssayMarkdown.render(body || '');
 }
 
 function downloadEssay(essay) {
