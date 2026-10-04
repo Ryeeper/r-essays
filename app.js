@@ -112,16 +112,48 @@ function route() {
 }
 
 window.addEventListener('hashchange', route);
-async function boot() {
+let refreshing = false;
+let loaded = false;
+let essayVersion = '';
+async function refreshEssays() {
+  if (refreshing) return;
+  refreshing = true;
   try {
-    const response = await fetch('essays.json');
+    const response = await fetch(`essays.json?v=${Date.now()}`, {cache: 'no-store'});
     if (!response.ok) throw new Error('The essay list could not be loaded.');
     const published = await response.json();
     if (!Array.isArray(published)) throw new Error('The essay list has an invalid format.');
-    essays = published;
-    route();
+    const version = JSON.stringify(published);
+    if (!loaded || version !== essayVersion) {
+      const oldScroll = {x: window.scrollX, y: window.scrollY};
+      const active = document.activeElement;
+      const focusId = active?.id;
+      const selection = active instanceof HTMLInputElement ? [active.selectionStart, active.selectionEnd] : null;
+      const wasLoaded = loaded;
+      essays = published;
+      essayVersion = version;
+      loaded = true;
+      if (category && !essays.some(essay => essay.category === category)) category = '';
+      route();
+      if (wasLoaded) {
+        window.scrollTo(oldScroll.x, oldScroll.y);
+        const replacement = focusId && document.getElementById(focusId);
+        replacement?.focus({preventScroll: true});
+        if (selection && replacement instanceof HTMLInputElement) {
+          try { replacement.setSelectionRange(...selection); } catch {}
+        }
+      }
+    }
   } catch {
-    app.innerHTML = '<main class="connection-error"><h1>R’s essays</h1><p>The essay collection could not be loaded. Please try again later.</p></main>';
+    if (!loaded) app.innerHTML = '<main class="connection-error"><h1>R’s essays</h1><p>The essay collection could not be loaded. Please try again later.</p></main>';
+  } finally {
+    refreshing = false;
   }
 }
-boot();
+window.addEventListener('focus', refreshEssays);
+window.addEventListener('pageshow', refreshEssays);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) refreshEssays();
+});
+setInterval(() => { if (!document.hidden) refreshEssays(); }, 30000);
+refreshEssays();
